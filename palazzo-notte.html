@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Diana & Richard — Palazzo Notte (Template 2)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="palazzo-notte.css">
+</head>
+<body>
+
+  <!-- Audio Background Score -->
+  <audio id="weddingAudio" src="assets/semo-fireflies.mp3" preload="auto" loop></audio>
+
+  <main class="app-viewport">
+
+    <!-- Template Switcher Menu (Top Left) -->
+    <div class="template-picker">
+      <button id="templateMenuBtn" class="template-menu-btn" title="Cambia Template">
+        <span class="tpl-icon">✨</span>
+        <span class="tpl-label">Template</span>
+      </button>
+      <div id="templateDropdown" class="template-dropdown">
+        <a href="index.html" class="tpl-opt">
+          <span class="tpl-opt-dot"></span>
+          <div>
+            <div class="tpl-opt-title">1. Fresco (Amalfi)</div>
+            <div class="tpl-opt-desc">Nastro in seta & pittura a olio</div>
+          </div>
+        </a>
+        <a href="palazzo-notte.html" class="tpl-opt active">
+          <span class="tpl-opt-dot"></span>
+          <div>
+            <div class="tpl-opt-title">2. Palazzo Notte</div>
+            <div class="tpl-opt-desc">Ceralacca dorata & lucciole</div>
+          </div>
+        </a>
+        <a href="giardino-toscano.html" class="tpl-opt">
+          <span class="tpl-opt-dot"></span>
+          <div>
+            <div class="tpl-opt-title">3. Giardino Toscano</div>
+            <div class="tpl-opt-desc">Ceralacca perla & fasci di luce</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Floating Top Controls -->
+    <header class="floating-controls">
+      <button id="replayBtn" class="replay-btn" title="Riapri busta">
+        <span>↺ Riapri Busta</span>
+      </button>
+      <div class="lang-picker">
+        <button class="lang-btn active">IT</button>
+        <button class="lang-btn">EN</button>
+      </div>
+    </header>
+
+    <!-- Floating Audio Button -->
+    <button id="floatingAudioBtn" class="floating-audio-btn" aria-label="Musica">
+      <span>♫</span>
+    </button>
+
+    <!-- ========================================================
+         STAGE 1: PALAZZO NOTTE ENVELOPE (Gold Wax Seal & Fireflies)
+         ======================================================== -->
+    <div id="envelopeScreen" class="envelope-screen">
+      <div id="envelopeStage" class="envelope-stage" title="Tocca il sigillo in ceralacca per aprire">
+        
+        <!-- Luxury Envelope Image -->
+        <img class="envelope-bg-image" src="assets/palazzo-notte-cover.jpg" alt="Busta Palazzo Notte">
+
+        <!-- Luminous Fireflies Canvas -->
+        <canvas id="firefliesCanvas"></canvas>
+
+        <!-- Golden Pulsing Aura behind the Wax Seal -->
+        <div class="wax-seal-pulse-glow"></div>
+
+        <!-- Burst Flare on Tap -->
+        <div id="sealBurstFlare" class="seal-burst-flare"></div>
+
+        <!-- Call to Action -->
+        <div id="tapPrompt" class="tap-to-open-prompt">
+          <span>⚜️</span>
+          <span>Tocca il sigillo dorato</span>
+          <span>✨</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================================
+         STAGE 2: NIGHT SUITE INVITATION
+         ======================================================== -->
+    <div id="invitationScroller" class="invitation-scroller">
+      
+      <!-- HERO NIGHT COVER -->
+      <section class="hero-night-section">
+        <div class="hero-night-card">
+          <div class="hero-night-monogram">D & R</div>
+          <h1 class="hero-night-names">
+            Diana
+            <span class="hero-night-amp">&</span>
+            Richard
+          </h1>
+
+          <p class="hero-night-line">
+            VI INVITIAMO A CELEBRARE<br>IL NOSTRO MATRIMONIO
+          </p>
+
+          <div class="hero-night-date">27</div>
+          <div class="hero-night-subdate">MARTEDÌ · LUGLIO 2027</div>
+
+          <div class="hero-night-venue-box">
+            <div class="hero-night-held">PRESSO</div>
+            <div class="hero-night-venue">Palazzo & Tenuta Son Bunyola</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WELCOME SOIRÉE -->
+      <section class="night-section">
+        <h2 class="night-title">Welcome Soirée</h2>
+        <div class="night-sub">LUNEDÌ 26 LUGLIO · ORE 19:30</div>
+
+        <div class="night-card-box">
+          <span class="night-card-badge">COCKTAIL D'ONORE</span>
+          <h3 class="night-card-title">La Terrazza delle Candele</h3>
+          <p class="night-card-desc">
+            Brindisi di benvenuto e musica jazz tra le arcate illuminate del palazzo, prima del grande giorno.
+          </p>
+        </div>
+      </section>
+
+      <!-- LA CELEBRAZIONE -->
+      <section class="night-section">
+        <h2 class="night-title">La Notte delle Nozze</h2>
+        <div class="night-sub">MARTEDÌ 27 LUGLIO · ORE 18:00</div>
+
+        <div class="night-card-box">
+          <span class="night-card-badge">RITO & CENA DI GALA</span>
+          <h3 class="night-card-title">Giardini del Belvedere</h3>
+          <p class="night-card-desc">
+            Cerimonia al crepuscolo seguita da banchetto a lume di candela e danze sotto il cielo stellato.
+          </p>
+          <a href="https://maps.google.com/?q=Son+Bunyola+Mallorca" target="_blank" class="btn-night-gold">
+            VEDI SULLA MAPPA
+          </a>
+        </div>
+      </section>
+
+      <!-- DRESS CODE -->
+      <section class="night-section">
+        <h2 class="night-title">Dress Code</h2>
+        <div class="night-sub">BLACK TIE OPTIONAL</div>
+        <p style="font-size: 13px; color: #b8c4ba; font-style: italic; max-width: 290px; margin: 0 auto;">
+          «Abiti scuri ed eleganti per signori, abiti lunghi o da cocktail per signore con dettagli luminosi.»
+        </p>
+      </section>
+
+      <!-- RSVP -->
+      <section class="night-section" style="padding-bottom: 70px;">
+        <h2 class="night-title">R.S.V.P.</h2>
+        <div class="night-sub">CONFERMA ENTRO IL 15 MAGGIO 2027</div>
+
+        <div class="night-card-box" style="text-align: center;">
+          <p style="font-size: 13px; color: #b8c4ba; margin-bottom: 16px;">
+            È gradita gentile conferma della vostra partecipazione.
+          </p>
+          <button class="btn-night-gold" onclick="alert('Conferma inviata con successo!')">
+            CONFERMA PARTECIPAZIONE
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <script src="palazzo-notte.js"></script>
+</body>
+</html>

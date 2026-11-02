@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Diana & Richard — Giardino Toscano (Template 3)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="giardino-toscano.css">
+</head>
+<body>
+
+  <!-- Audio Background Score -->
+  <audio id="weddingAudio" src="assets/semo-fireflies.mp3" preload="auto" loop></audio>
+
+  <main class="app-viewport">
+
+    <!-- Template Switcher Menu (Top Left) -->
+    <div class="template-picker">
+      <button id="templateMenuBtn" class="template-menu-btn" title="Cambia Template">
+        <span class="tpl-icon">✨</span>
+        <span class="tpl-label">Template</span>
+      </button>
+      <div id="templateDropdown" class="template-dropdown">
+        <a href="index.html" class="tpl-opt">
+          <span class="tpl-opt-dot"></span>
+          <div>
+            <div class="tpl-opt-title">1. Fresco (Amalfi)</div>
+            <div class="tpl-opt-desc">Nastro in seta & pittura a olio</div>
+          </div>
+        </a>
+        <a href="palazzo-notte.html" class="tpl-opt">
+          <span class="tpl-opt-dot"></span>
+          <div>
+            <div class="tpl-opt-title">2. Palazzo Notte</div>
+            <div class="tpl-opt-desc">Ceralacca dorata & lucciole</div>
+          </div>
+        </a>
+        <a href="giardino-toscano.html" class="tpl-opt active">
+          <span class="tpl-opt-dot"></span>
+          <div>
+            <div class="tpl-opt-title">3. Giardino Toscano</div>
+            <div class="tpl-opt-desc">Ceralacca perla & fasci di luce</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Floating Top Controls -->
+    <header class="floating-controls">
+      <button id="replayBtn" class="replay-btn" title="Riapri busta">
+        <span>↺ Riapri Busta</span>
+      </button>
+      <div class="lang-picker">
+        <button class="lang-btn active">IT</button>
+        <button class="lang-btn">EN</button>
+      </div>
+    </header>
+
+    <!-- Floating Audio Button -->
+    <button id="floatingAudioBtn" class="floating-audio-btn" aria-label="Musica">
+      <span>♫</span>
+    </button>
+
+    <!-- ========================================================
+         STAGE 1: TUSCAN ENVELOPE (Pearl Wax Seal & Sunbeams)
+         ======================================================== -->
+    <div id="envelopeScreen" class="envelope-screen">
+      <div id="envelopeStage" class="envelope-stage" title="Tocca il sigillo perlato per aprire">
+        
+        <!-- Tuscan Envelope Background Image -->
+        <img class="envelope-bg-image" src="assets/giardino-toscano-cover.jpg" alt="Busta Giardino Toscano">
+
+        <!-- Luminous Golden Hour Sunbeams Breathing Overlay -->
+        <div class="sunbeam-overlay"></div>
+
+        <!-- Volumetric Rays -->
+        <div class="sun-rays-layer"></div>
+
+        <!-- Shimmering Pearlescent Gleam on Wax Seal -->
+        <div class="pearl-seal-gleam"></div>
+
+        <!-- Sunburst Lens Flare on Tap -->
+        <div id="tuscanFlare" class="tuscan-flare"></div>
+
+        <!-- Call to Action -->
+        <div id="tapPrompt" class="tap-to-open-prompt">
+          <span>🌿</span>
+          <span>Tocca il sigillo perlato</span>
+          <span>✨</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================================
+         STAGE 2: SCROLLABLE INVITATION SUITE
+         ======================================================== -->
+    <div id="invitationScroller" class="invitation-scroller">
+      
+      <!-- HERO TUSCAN COVER -->
+      <section class="hero-tuscan-section">
+        <div class="hero-tuscan-card">
+          <div class="hero-tuscan-monogram">D & R</div>
+          <h1 class="hero-tuscan-names">
+            Diana
+            <span class="hero-tuscan-amp">&</span>
+            Richard
+          </h1>
+
+          <p class="hero-tuscan-line">
+            VI INVITIAMO A CELEBRARE<br>IL NOSTRO MATRIMONIO
+          </p>
+
+          <div class="hero-tuscan-date">27</div>
+          <div class="hero-tuscan-subdate">MARTEDÌ · LUGLIO 2027</div>
+
+          <div class="hero-tuscan-venue-box">
+            <div class="hero-tuscan-held">PRESSO</div>
+            <div class="hero-tuscan-venue">Tenuta Son Bunyola, Maiorca</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WELCOME COCKTAIL TRA GLI ULIVI -->
+      <section class="tuscan-section">
+        <h2 class="tuscan-title">Benvenuto tra gli Ulivi</h2>
+        <div class="tuscan-sub">LUNEDÌ 26 LUGLIO · ORE 19:00</div>
+
+        <div class="tuscan-card-box">
+          <span class="tuscan-card-badge">APERITIVO AL TRAMONTO</span>
+          <h3 class="tuscan-card-title">Il Giardino dei Limoni</h3>
+          <p class="tuscan-card-desc">
+            Un incontro informale con vini toscani e spagnoli, musica acustica dal vivo e prodotti tipici mediterranei nell'oliveto centenario.
+          </p>
+        </div>
+      </section>
+
+      <!-- LA CERIMONIA & CENA -->
+      <section class="tuscan-section">
+        <h2 class="tuscan-title">La Cerimonia & Festa</h2>
+        <div class="tuscan-sub">MARTEDÌ 27 LUGLIO · ORE 17:30</div>
+
+        <div class="tuscan-card-box">
+          <span class="tuscan-card-badge">RITO & CENA SOTTO LE STELLE</span>
+          <h3 class="tuscan-card-title">Corte delle Rose</h3>
+          <p class="tuscan-card-desc">
+            Scambio delle promesse al sole calante della macchia mediterranea, seguito da cena conviviale a lunghi tavoli imperiali e open bar.
+          </p>
+          <a href="https://maps.google.com/?q=Son+Bunyola+Mallorca" target="_blank" class="btn-tuscan">
+            VEDI INDICAZIONI MAPPA
+          </a>
+        </div>
+      </section>
+
+      <!-- DRESS CODE -->
+      <section class="tuscan-section">
+        <h2 class="tuscan-title">Dress Code</h2>
+        <div class="tuscan-sub">GARDEN CHIC & TERRACOTTA</div>
+        <p style="font-size: 13px; color: #786d63; font-style: italic; max-width: 290px; margin: 0 auto;">
+          «Colori caldi della terra, lino, sete leggere e tonalità pastello. Si consigliano calzature comode per il prato.»
+        </p>
+      </section>
+
+      <!-- RSVP -->
+      <section class="tuscan-section" style="padding-bottom: 70px;">
+        <h2 class="tuscan-title">R.S.V.P.</h2>
+        <div class="tuscan-sub">CONFERMA ENTRO IL 15 MAGGIO 2027</div>
+
+        <div class="tuscan-card-box" style="text-align: center;">
+          <p style="font-size: 13px; color: #786d63; margin-bottom: 16px;">
+            Fateci sapere se potrete brindare con noi!
+          </p>
+          <button class="btn-tuscan" onclick="alert('Conferma inviata con successo!')">
+            CONFERMA LA TUA PRESENZA
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <script src="giardino-toscano.js"></script>
+</body>
+</html>

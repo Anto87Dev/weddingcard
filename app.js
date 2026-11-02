@@ -717,6 +717,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const rsvpForm = document.getElementById('rsvpForm');
   if (rsvpForm) rsvpForm.addEventListener('submit', handleRsvpSubmit);
 
+
+  // Template Picker dropdown
+  const tplBtn = document.getElementById('templateMenuBtn');
+  const tplDropdown = document.getElementById('templateDropdown');
+  if (tplBtn && tplDropdown) {
+    tplBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      tplDropdown.classList.toggle('is-open');
+    });
+    document.addEventListener('click', (e) => {
+      if (!tplDropdown.contains(e.target) && e.target !== tplBtn) {
+        tplDropdown.classList.remove('is-open');
+      }
+    });
+  }
+
   initCountdown();
   setLanguage('it');
 });

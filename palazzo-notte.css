@@ -1,0 +1,556 @@
+/* ========================================================
+   TEMPLATE 2: PALAZZO NOTTE (EMERALD & GOLD WAX SEAL)
+   Ultra-Luxury Night Edition with Golden Fireflies
+   ======================================================== */
+
+:root {
+  --font-serif: 'Cormorant Garamond', Garamond, 'Bodoni MT', Georgia, serif;
+  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-script: 'Pinyon Script', cursive;
+
+  --color-emerald-deep: #0e1a14;
+  --color-emerald-card: #15271e;
+  --color-gold-bright: #f3d078;
+  --color-gold-metallic: #d4af37;
+  --color-gold-muted: #bfa15f;
+  --color-champagne: #faf6eb;
+  --color-text-light: #ece6d8;
+  --color-text-dim: #9ea89f;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #080d0a;
+  font-family: var(--font-sans);
+  color: var(--color-text-light);
+  overflow: hidden;
+  line-height: 1.6;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-viewport {
+  width: 100%;
+  max-width: 440px;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0 auto;
+  position: relative;
+  background: var(--color-emerald-deep);
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.85);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 480px) {
+  .app-viewport {
+    max-width: 100%;
+    box-shadow: none;
+  }
+}
+
+/* ----------------------------------------------------
+   FLOATING TOP CONTROLS
+   ---------------------------------------------------- */
+.floating-controls {
+  position: absolute;
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  right: 16px;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lang-picker {
+  display: flex;
+  background: rgba(14, 26, 20, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 30px;
+  padding: 3px 5px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  padding: 4px 8px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--color-text-dim);
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all 0.25s ease;
+}
+
+.lang-btn.active {
+  background: var(--color-gold-metallic);
+  color: #0e1a14;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+}
+
+.replay-btn {
+  background: rgba(14, 26, 20, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 30px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-gold-bright);
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  display: none;
+  align-items: center;
+  gap: 4px;
+}
+.replay-btn.is-visible {
+  display: flex;
+}
+
+.floating-audio-btn {
+  position: absolute;
+  bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+  left: 20px;
+  z-index: 900;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(14, 26, 20, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-gold-bright);
+  font-size: 17px;
+  transition: transform 0.2s ease;
+}
+
+.floating-audio-btn.playing {
+  border-color: var(--color-gold-bright);
+  box-shadow: 0 0 16px rgba(243, 208, 120, 0.5);
+}
+
+/* ----------------------------------------------------
+   TEMPLATE PICKER (TOP LEFT)
+   ---------------------------------------------------- */
+.template-picker {
+  position: absolute;
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  left: 16px;
+  z-index: 950;
+}
+
+.template-menu-btn {
+  background: rgba(14, 26, 20, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 30px;
+  padding: 5px 12px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-gold-bright);
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.template-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  background: rgba(14, 26, 20, 0.96);
+  backdrop-filter: blur(16px);
+  border-radius: 14px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  padding: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  animation: dropdownFade 0.2s ease-out;
+}
+.template-dropdown.is-open { display: flex; }
+
+.tpl-opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--color-text-light);
+}
+.tpl-opt:hover { background: rgba(212, 175, 55, 0.1); }
+.tpl-opt.active { background: rgba(212, 175, 55, 0.2); }
+.tpl-opt-dot { width: 8px; height: 8px; border-radius: 50%; background: #556056; }
+.tpl-opt.active .tpl-opt-dot { background: var(--color-gold-bright); box-shadow: 0 0 8px var(--color-gold-bright); }
+.tpl-opt-title { font-size: 11.5px; font-weight: 600; color: var(--color-champagne); }
+.tpl-opt-desc { font-size: 9.5px; color: var(--color-text-dim); }
+
+/* ----------------------------------------------------
+   STAGE 1: THE WAX SEAL ENVELOPE & LUMINOUS FIREFLIES
+   ---------------------------------------------------- */
+.envelope-screen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #060907;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: opacity 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.envelope-screen.opened-hidden {
+  display: none !important;
+}
+
+.envelope-stage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.envelope-bg-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s ease, filter 1.2s ease;
+}
+
+/* Luminous Canvas for Golden Fireflies */
+#firefliesCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Pulsing Golden Aura around the Wax Seal */
+.wax-seal-pulse-glow {
+  position: absolute;
+  top: 51.5%;
+  left: 50.5%;
+  transform: translate(-50%, -50%);
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(243, 208, 120, 0.55) 0%, rgba(212, 175, 55, 0.2) 45%, transparent 70%);
+  z-index: 4;
+  pointer-events: none;
+  animation: waxPulse 3s infinite ease-in-out;
+}
+
+@keyframes waxPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.92);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.25);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 25px rgba(243, 208, 120, 0.8));
+  }
+}
+
+/* Break Sparkle Wave on Tap */
+.seal-burst-flare {
+  position: absolute;
+  top: 51.5%;
+  left: 50.5%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, rgba(243, 208, 120, 0.9) 20%, rgba(212, 175, 55, 0.4) 50%, transparent 75%);
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.8s ease-out;
+}
+.seal-burst-flare.is-firing {
+  transform: translate(-50%, -50%) scale(1.6);
+  opacity: 1;
+}
+
+/* Prompt */
+.tap-to-open-prompt {
+  position: absolute;
+  bottom: calc(36px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: rgba(14, 26, 20, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 11px 26px;
+  border-radius: 30px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--color-gold-bright);
+  animation: floatPrompt 2.5s ease-in-out infinite;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+@keyframes floatPrompt {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, -6px); }
+}
+
+/* ----------------------------------------------------
+   STAGE 2: SCROLLABLE INVITATION (PALAZZO NOTTE)
+   ---------------------------------------------------- */
+.invitation-scroller {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  background: var(--color-emerald-deep);
+  z-index: 10;
+}
+
+.invitation-scroller.is-active {
+  overflow-y: auto;
+}
+
+/* 1. HERO NIGHT COVER */
+.hero-night-section {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 25%, #182e23 0%, #0d1a13 85%, #070e0a 100%);
+  padding: calc(90px + env(safe-area-inset-top, 0px)) 24px calc(30px + env(safe-area-inset-bottom, 0px)) 24px;
+  text-align: center;
+}
+
+.hero-night-card {
+  width: 100%;
+  max-width: 320px;
+  background: rgba(21, 39, 30, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 16px;
+  padding: 38px 24px 34px 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(212, 175, 55, 0.05);
+  position: relative;
+  z-index: 5;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.6s ease, transform 1.6s ease;
+}
+
+.invitation-scroller.is-active .hero-night-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-night-monogram {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  letter-spacing: 6px;
+  color: var(--color-gold-bright);
+  margin-bottom: 8px;
+}
+
+.hero-night-names {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: 0.5px;
+}
+
+.hero-night-amp {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--color-gold-bright);
+  margin: 4px 0;
+  display: block;
+}
+
+.hero-night-line {
+  font-size: 8.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-gold-muted);
+  margin: 16px 0 18px 0;
+  line-height: 1.6;
+}
+
+.hero-night-date {
+  font-family: var(--font-serif);
+  font-size: 38px;
+  color: var(--color-gold-bright);
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.hero-night-subdate {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.hero-night-venue-box {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.hero-night-held {
+  font-size: 8.5px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.hero-night-venue {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  color: var(--color-champagne);
+  margin-top: 4px;
+}
+
+/* Sections */
+.night-section {
+  padding: 50px 22px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+  text-align: center;
+}
+
+.night-title {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  color: var(--color-gold-bright);
+  margin-bottom: 6px;
+}
+
+.night-sub {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  margin-bottom: 24px;
+}
+
+.night-card-box {
+  background: var(--color-emerald-card);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 12px;
+  padding: 24px 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.night-card-badge {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--color-gold-bright);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.night-card-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.night-card-desc {
+  font-size: 12px;
+  color: var(--color-text-dim);
+  line-height: 1.6;
+}
+
+.btn-night-gold {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  background: linear-gradient(135deg, #d4af37 0%, #f3d078 50%, #bfa15f 100%);
+  color: #0e1a14;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 13px 20px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  margin-top: 14px;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.btn-night-gold:hover {
+  transform: translateY(-2px);
+}

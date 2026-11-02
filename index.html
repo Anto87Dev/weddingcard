@@ -25,6 +25,38 @@
 
   <!-- Main Mobile Container (Edge-to-edge on phones, centered on desktop) -->
   <main class="app-viewport">
+    <!-- Template Switcher Menu (Top Left) -->
+    <div class="template-picker">
+      <button id="templateMenuBtn" class="template-menu-btn" title="Cambia Template">
+        <span class="tpl-icon">✨</span>
+        <span class="tpl-label">Template</span>
+      </button>
+      <div id="templateDropdown" class="template-dropdown">
+        <a href="index.html" class="tpl-opt active">
+          <span class="tpl-opt-dot"></span>
+          <div>
+            <div class="tpl-opt-title">1. Fresco (Amalfi)</div>
+            <div class="tpl-opt-desc">Nastro in seta & pittura a olio</div>
+          </div>
+        </a>
+        <a href="palazzo-notte.html" class="tpl-opt">
+          <span class="tpl-opt-dot"></span>
+          <div>
+            <div class="tpl-opt-title">2. Palazzo Notte</div>
+            <div class="tpl-opt-desc">Ceralacca dorata & lucciole</div>
+          </div>
+        </a>
+        <a href="giardino-toscano.html" class="tpl-opt">
+          <span class="tpl-opt-dot"></span>
+          <div>
+            <div class="tpl-opt-title">3. Giardino Toscano</div>
+            <div class="tpl-opt-desc">Ceralacca perla & fasci di luce</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+
 
     <!-- Floating Top Controls: Language Picker & Replay Button -->
     <header class="floating-controls">
