@@ -1,10 +1,9 @@
 /**
  * PALAZZO NOTTE CONTROLLER
- * GSAP 60fps Synchronized 3D Envelope Opening & Living Oil Painting Frame
+ * 60fps Fluid Video Opening with Gold Wax Seal & Night Hero Frame
  */
 
 let isOpened = false;
-let masterTimeline = null;
 
 // ----------------------------------------------------
 // CANVAS 1: FIREFLIES ON ENVELOPE COVER
@@ -150,123 +149,121 @@ function initHeroFireflies() {
 }
 
 // ----------------------------------------------------
-// GSAP CHOREOGRAPHED 3D ENVELOPE OPENING
+// 60FPS FLUID VIDEO ENVELOPE OPENING (EXACT TEMPLATE 1 ENGINE)
 // ----------------------------------------------------
 function openPalazzoEnvelope() {
   if (isOpened) return;
   isOpened = true;
 
+  const video = document.getElementById('envelopeVideo');
+  const poster = document.getElementById('envelopePosterWrapper');
+  const prompt = document.getElementById('tapPrompt');
   const audio = document.getElementById('weddingAudio');
   const audioBtn = document.getElementById('floatingAudioBtn');
-  const screen = document.getElementById('envelopeScreen');
   const scroller = document.getElementById('invitationScroller');
-  const flare = document.getElementById('sealBurstFlare');
-  const sealGroup = document.getElementById('waxSealGroup');
-  const flap = document.getElementById('envelopeFlap3D');
-  const letter = document.getElementById('envelopeLetterSlide');
-  const prompt = document.getElementById('tapPrompt');
-  const heroText = document.getElementById('heroTextOverlay');
+  const screen = document.getElementById('envelopeScreen');
   const replayBtn = document.getElementById('replayBtn');
+  const flare = document.getElementById('sealBurstFlare');
 
-  // 1. Instant audio start
+  // 1. Hide tap prompt immediately
+  if (prompt) {
+    prompt.style.transition = 'opacity 0.3s ease';
+    prompt.style.opacity = '0';
+  }
+
+  // 2. Fire golden starlight burst from wax seal
+  if (flare) {
+    flare.classList.add('is-firing');
+  }
+
+  // 3. Start romantic background music immediately
   if (audio && audio.paused) {
     audio.play().then(() => {
       if (audioBtn) audioBtn.classList.add('playing');
-    }).catch(e => console.log('Audio autoplay:', e));
+    }).catch(e => console.log('Audio autoplay prevented:', e));
   }
 
-  // 2. Master GSAP Timeline (butter-smooth 60fps synchronization)
-  masterTimeline = gsap.timeline({
-    onComplete: () => {
-      screen.classList.add('opened-hidden');
-      if (replayBtn) replayBtn.classList.add('is-visible');
-    }
-  });
+  // 4. Play envelope opening video (60fps fluid ribbon unknotting & flap opening)
+  if (video) {
+    video.currentTime = 0;
+    video.play().catch(e => {
+      console.log('Video play error:', e);
+      finishOpening();
+    });
 
-  // T = 0.0s: Prompt fades out
-  masterTimeline.to(prompt, { opacity: 0, duration: 0.25, ease: 'power2.out' }, 0);
+    let hasTransitioned = false;
+    const checkTransition = () => {
+      // Smoothly crossfade from static wax seal poster to video as soon as video starts
+      if (video.currentTime > 0.05 && poster && !poster.classList.contains('is-hidden')) {
+        poster.classList.add('is-hidden');
+      }
 
-  // T = 0.0s: Golden starlight flare erupts from the wax seal
-  masterTimeline.fromTo(flare,
-    { scale: 0, opacity: 0 },
-    { scale: 1.8, opacity: 1, duration: 0.5, ease: 'power2.out' },
-    0
-  );
-  masterTimeline.to(flare, { opacity: 0, duration: 0.45, ease: 'power2.in' }, 0.4);
+      if (hasTransitioned) return;
+      // When video is ~0.9s from end (letter emerging), start crossfading into living painting
+      if (video.duration && (video.currentTime >= video.duration - 0.9 || video.ended)) {
+        hasTransitioned = true;
+        finishOpening();
+      }
+    };
 
-  // T = 0.15s: Wax seal unlocks and melts into starlight
-  masterTimeline.to(sealGroup, { scale: 1.18, opacity: 0, duration: 0.45, ease: 'power2.in' }, 0.15);
+    video.addEventListener('timeupdate', checkTransition);
+    video.addEventListener('ended', finishOpening);
+  } else {
+    finishOpening();
+  }
 
-  // T = 0.35s: Top Flap opens in 3D (0 -> 180deg)
-  masterTimeline.to(flap, {
-    rotateX: 180,
-    duration: 1.15,
-    ease: 'power2.inOut',
-    transformOrigin: 'top center'
-  }, 0.35);
-
-  // T = 0.75s: Letter emerges out of the envelope pocket and glides upward
-  masterTimeline.to(letter, {
-    opacity: 1,
-    y: -190,
-    scale: 1.05,
-    duration: 1.35,
-    ease: 'power2.out'
-  }, 0.75);
-
-  // T = 1.75s: Activate scroller & trigger hero fireflies
-  masterTimeline.add(() => {
+  function finishOpening() {
     scroller.classList.add('is-active');
     scroller.scrollTop = 0;
+
     initHeroFireflies();
-  }, 1.75);
 
-  // T = 1.8s: Harmonious crossfade from envelope to Hero living painting
-  masterTimeline.to(screen, {
-    opacity: 0,
-    duration: 1.1,
-    ease: 'power2.inOut'
-  }, 1.8);
+    const heroText = document.getElementById('heroTextOverlay');
+    if (heroText) {
+      heroText.classList.add('is-visible');
+    }
 
-  // T = 2.0s: The text and branches in "quel riquadro" settle into place
-  masterTimeline.fromTo(heroText,
-    { opacity: 0, y: 15 },
-    { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out' },
-    2.0
-  );
+    screen.style.transition = 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+    screen.style.opacity = '0';
+    screen.style.pointerEvents = 'none';
+
+    setTimeout(() => {
+      screen.classList.add('opened-hidden');
+      if (replayBtn) replayBtn.classList.add('is-visible');
+    }, 1200);
+  }
 }
 
 function replayPalazzoEnvelope() {
   isOpened = false;
 
-  const screen = document.getElementById('envelopeScreen');
-  const scroller = document.getElementById('invitationScroller');
-  const flare = document.getElementById('sealBurstFlare');
-  const sealGroup = document.getElementById('waxSealGroup');
-  const flap = document.getElementById('envelopeFlap3D');
-  const letter = document.getElementById('envelopeLetterSlide');
+  const video = document.getElementById('envelopeVideo');
+  const poster = document.getElementById('envelopePosterWrapper');
   const prompt = document.getElementById('tapPrompt');
-  const heroText = document.getElementById('heroTextOverlay');
+  const scroller = document.getElementById('invitationScroller');
+  const screen = document.getElementById('envelopeScreen');
   const replayBtn = document.getElementById('replayBtn');
-
-  if (masterTimeline) {
-    masterTimeline.kill();
-  }
+  const flare = document.getElementById('sealBurstFlare');
+  const heroText = document.getElementById('heroTextOverlay');
 
   scroller.classList.remove('is-active');
   scroller.scrollTop = 0;
+  if (heroText) heroText.classList.remove('is-visible');
 
-  // Reset GSAP animated properties to initial state
-  gsap.set(screen, { opacity: 1 });
+  if (video) {
+    video.pause();
+    video.currentTime = 0;
+  }
+
+  if (poster) poster.classList.remove('is-hidden');
+  if (flare) flare.classList.remove('is-firing');
+
   screen.classList.remove('opened-hidden');
+  screen.style.transition = 'opacity 0.6s ease';
+  screen.style.opacity = '1';
+  screen.style.pointerEvents = 'auto';
 
-  gsap.set(flap, { rotateX: 0 });
-  gsap.set(letter, { opacity: 0, y: 0, scale: 0.85 });
-  gsap.set(sealGroup, { scale: 1, opacity: 1 });
-  gsap.set(flare, { scale: 0, opacity: 0 });
-  gsap.set(prompt, { opacity: 1 });
-  gsap.set(heroText, { opacity: 0, y: 15 });
-
+  if (prompt) prompt.style.opacity = '1';
   if (replayBtn) replayBtn.classList.remove('is-visible');
 
   initEnvelopeFireflies();

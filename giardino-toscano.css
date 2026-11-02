@@ -217,7 +217,7 @@ body {
 .tpl-opt-desc { font-size: 9.5px; color: #7d756b; }
 
 /* ----------------------------------------------------
-   STAGE 1: 3D ENVELOPE OPENING ANIMATION (GSAP DRIVEN)
+   STAGE 1: FLUID ENVELOPE OPENING (VIDEO + PEARL WAX SEAL)
    ---------------------------------------------------- */
 .envelope-screen {
   position: absolute;
@@ -230,7 +230,7 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  will-change: opacity;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .envelope-screen.opened-hidden {
@@ -243,164 +243,41 @@ body {
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  perspective: 1200px;
 }
 
-.envelope-base {
+/* 60fps Fluid Opening Video (Graded to Warm Tuscan Golden Hour) */
+.envelope-video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  filter: sepia(0.35) saturate(1.3) brightness(1.05) contrast(1.05);
+  display: block;
   z-index: 1;
 }
 
-.envelope-bg-image {
+/* Static Wax Seal Poster Overlay */
+.envelope-poster-wrapper {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-}
-
-/* 3D Top Triangular Flap */
-.envelope-flap-3d {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 50%;
-  transform-origin: top center;
-  transform-style: preserve-3d;
-  z-index: 6;
+  z-index: 5;
+  transition: opacity 0.4s ease;
   pointer-events: none;
-  will-change: transform;
 }
 
-.envelope-flap-face {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.envelope-flap-face.front img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 200%;
-  object-fit: cover;
-}
-
-.envelope-flap-face.back {
-  transform: rotateX(180deg);
-  background: linear-gradient(180deg, #ede4d1 0%, #d8caaf 100%);
-  border-bottom: 2px solid rgba(179, 93, 67, 0.4);
-}
-
-/* Inner Letter Slide */
-.envelope-letter-slide {
-  position: absolute;
-  top: 32%;
-  left: 50%;
-  transform: translate(-50%, 0) scale(0.85);
-  width: 72%;
-  height: 52%;
-  background: #faf7f0;
-  border-radius: 8px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
-  z-index: 2;
+.envelope-poster-wrapper.is-hidden {
   opacity: 0;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(179, 93, 67, 0.3);
-  will-change: transform, opacity;
 }
 
-.letter-slide-inner {
-  text-align: center;
-  color: #332d28;
-  padding: 20px;
-}
-.letter-slide-monogram {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  letter-spacing: 5px;
-  color: var(--color-terracotta);
-  display: block;
-  margin-bottom: 6px;
-}
-.letter-slide-names {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  display: block;
-  line-height: 1.1;
-  color: var(--color-charcoal);
-}
-.letter-slide-twig-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 8px;
-}
-.twig-mini {
-  width: 18px;
-  opacity: 0.85;
-}
-.twig-mini.right {
-  transform: scaleX(-1);
-}
-.letter-slide-date {
-  font-family: var(--font-sans);
-  font-size: 8px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--color-olive-dark);
-}
-.letter-slide-venue {
-  font-family: var(--font-serif);
-  font-size: 12px;
-  color: #786d63;
-  margin-top: 8px;
-  display: block;
-}
-
-/* Front Pocket */
-.envelope-front-pocket {
+.envelope-poster-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 3;
-  clip-path: polygon(0 50%, 50% 50%, 100% 50%, 100% 100%, 0 100%);
-  pointer-events: none;
-}
-.envelope-front-pocket img {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
-}
-
-/* Wax Seal Group & Aura */
-.wax-seal-group {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 160px;
-  height: 160px;
-  z-index: 9;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  will-change: transform, opacity;
 }
 
 /* Luminous Golden Hour Sunbeams */
@@ -441,17 +318,21 @@ body {
 /* Pearlescent Gleam on the Wax Seal */
 .pearl-seal-gleam {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(255, 240, 200, 0.35) 45%, transparent 70%);
+  z-index: 9;
+  pointer-events: none;
   animation: pearlShimmer 4s infinite ease-in-out;
 }
 
 @keyframes pearlShimmer {
-  0%, 100% { transform: scale(0.92); opacity: 0.35; }
-  50% { transform: scale(1.2); opacity: 0.9; filter: drop-shadow(0 0 20px #fff); }
+  0%, 100% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.35; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; filter: drop-shadow(0 0 20px #fff); }
 }
 
 /* Warm Lens Flare on Tap */
@@ -467,7 +348,7 @@ body {
   z-index: 15;
   pointer-events: none;
   opacity: 0;
-  will-change: transform, opacity;
+  transition: transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.8s ease-out;
 }
 .tuscan-flare.is-firing {
   transform: translate(-50%, -50%) scale(1.7);

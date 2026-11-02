@@ -216,7 +216,7 @@ body {
 .tpl-opt-desc { font-size: 9.5px; color: var(--color-text-dim); }
 
 /* ----------------------------------------------------
-   STAGE 1: 3D ENVELOPE OPENING ANIMATION (GSAP DRIVEN)
+   STAGE 1: FLUID ENVELOPE OPENING (VIDEO + GOLD WAX SEAL)
    ---------------------------------------------------- */
 .envelope-screen {
   position: absolute;
@@ -229,7 +229,7 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  will-change: opacity;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .envelope-screen.opened-hidden {
@@ -242,151 +242,54 @@ body {
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  perspective: 1200px;
 }
 
-.envelope-base {
+/* 60fps Fluid Opening Video */
+.envelope-video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  filter: brightness(0.68) contrast(1.22) hue-rotate(85deg) saturate(1.4);
+  display: block;
   z-index: 1;
 }
 
-.envelope-bg-image {
+/* Emerald Velvet Ambient Tint Overlay */
+.envelope-emerald-tint {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* 3D Top Triangular Flap */
-.envelope-flap-3d {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 50%;
-  transform-origin: top center;
-  transform-style: preserve-3d;
-  z-index: 6;
+  background: rgba(8, 24, 15, 0.32);
+  mix-blend-mode: multiply;
   pointer-events: none;
-  will-change: transform;
-}
-
-.envelope-flap-face {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.envelope-flap-face.front img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 200%;
-  object-fit: cover;
-}
-
-.envelope-flap-face.back {
-  transform: rotateX(180deg);
-  background: linear-gradient(180deg, #0e1e16 0%, #172d21 100%);
-  border-bottom: 2px solid rgba(212, 175, 55, 0.4);
-}
-
-/* Inner Letter Slide (Emerges out of envelope pocket) */
-.envelope-letter-slide {
-  position: absolute;
-  top: 32%;
-  left: 50%;
-  transform: translate(-50%, 0) scale(0.85);
-  width: 72%;
-  height: 52%;
-  background: #faf6ee;
-  border-radius: 8px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
   z-index: 2;
-  opacity: 0;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  will-change: transform, opacity;
 }
 
-.letter-slide-inner {
-  text-align: center;
-  color: #2b251f;
-  padding: 20px;
-}
-.letter-slide-monogram {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  letter-spacing: 5px;
-  color: #aa8524;
-  display: block;
-  margin-bottom: 6px;
-}
-.letter-slide-names {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  display: block;
-  line-height: 1.1;
-  color: #1e1b17;
-}
-.letter-slide-twig-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 8px;
-}
-.twig-mini {
-  width: 18px;
-  opacity: 0.85;
-}
-.twig-mini.right {
-  transform: scaleX(-1);
-}
-.letter-slide-date {
-  font-family: var(--font-sans);
-  font-size: 8px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #7d7265;
-}
-.letter-slide-venue {
-  font-family: var(--font-serif);
-  font-size: 12px;
-  color: #554e44;
-  margin-top: 8px;
-  display: block;
-}
-
-/* Front Pocket (Covers lower half of letter) */
-.envelope-front-pocket {
+/* Static Wax Seal Poster Overlay */
+.envelope-poster-wrapper {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 3;
-  clip-path: polygon(0 50%, 50% 50%, 100% 50%, 100% 100%, 0 100%);
+  z-index: 5;
+  transition: opacity 0.4s ease;
   pointer-events: none;
 }
-.envelope-front-pocket img {
+
+.envelope-poster-wrapper.is-hidden {
+  opacity: 0;
+}
+
+.envelope-poster-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Canvas for Golden Fireflies */
+/* Canvas for Golden Fireflies on Poster */
 #firefliesCanvas {
   position: absolute;
   inset: 0;
@@ -396,39 +299,28 @@ body {
   pointer-events: none;
 }
 
-/* Wax Seal Group & Aura */
-.wax-seal-group {
+/* Pulsing Golden Aura around the Wax Seal */
+.wax-seal-pulse-glow {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 160px;
   height: 160px;
-  z-index: 8;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  will-change: transform, opacity;
-}
-
-.wax-seal-pulse-glow {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(243, 208, 120, 0.6) 0%, rgba(212, 175, 55, 0.25) 45%, transparent 70%);
+  z-index: 8;
+  pointer-events: none;
   animation: waxPulse 3s infinite ease-in-out;
 }
 
 @keyframes waxPulse {
   0%, 100% {
-    transform: scale(0.92);
+    transform: translate(-50%, -50%) scale(0.92);
     opacity: 0.5;
   }
   50% {
-    transform: scale(1.25);
+    transform: translate(-50%, -50%) scale(1.25);
     opacity: 0.95;
     filter: drop-shadow(0 0 25px rgba(243, 208, 120, 0.8));
   }
@@ -447,7 +339,11 @@ body {
   z-index: 15;
   pointer-events: none;
   opacity: 0;
-  will-change: transform, opacity;
+  transition: transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.8s ease-out;
+}
+.seal-burst-flare.is-firing {
+  transform: translate(-50%, -50%) scale(1.7);
+  opacity: 1;
 }
 
 /* Tap to Open Prompt */
