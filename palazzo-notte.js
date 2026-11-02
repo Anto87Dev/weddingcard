@@ -1,15 +1,14 @@
 /**
  * PALAZZO NOTTE CONTROLLER
- * Golden Fireflies, Luminous Wax Seal & Emerald Night Suite
+ * 3D Envelope Opening Animation, Golden Wax Seal & Starry Night Hero Frame
  */
 
 let isOpened = false;
-let currentLang = 'it';
 
 // ----------------------------------------------------
-// GOLDEN FIREFLIES CANVAS (Luminous Floating Particles)
+// CANVAS 1: FIREFLIES ON ENVELOPE COVER
 // ----------------------------------------------------
-function initFireflies() {
+function initEnvelopeFireflies() {
   const canvas = document.getElementById('firefliesCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -22,7 +21,7 @@ function initFireflies() {
   window.addEventListener('resize', resize);
 
   const fireflies = [];
-  const count = 55;
+  const count = 45;
 
   for (let i = 0; i < count; i++) {
     fireflies.push({
@@ -30,7 +29,7 @@ function initFireflies() {
       y: Math.random() * canvas.height,
       radius: Math.random() * 2.2 + 0.8,
       vx: (Math.random() - 0.5) * 0.45,
-      vy: (Math.random() - 0.5) * 0.45 - 0.15, // gentle float upward
+      vy: (Math.random() - 0.5) * 0.45 - 0.15,
       alpha: Math.random() * 0.7 + 0.2,
       pulseSpeed: Math.random() * 0.025 + 0.01,
       pulsePhase: Math.random() * Math.PI * 2
@@ -38,7 +37,7 @@ function initFireflies() {
   }
 
   function render() {
-    if (isOpened) return; // Stop animation when opened to save battery
+    if (isOpened) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (const f of fireflies) {
@@ -46,7 +45,6 @@ function initFireflies() {
       f.y += f.vy;
       f.pulsePhase += f.pulseSpeed;
 
-      // Wrap around edges
       if (f.x < 0) f.x = canvas.width;
       if (f.x > canvas.width) f.x = 0;
       if (f.y < 0) f.y = canvas.height;
@@ -54,7 +52,6 @@ function initFireflies() {
 
       const currentAlpha = Math.max(0.05, Math.sin(f.pulsePhase) * 0.5 + 0.5) * f.alpha;
 
-      // Outer glow
       const grad = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.radius * 4.5);
       grad.addColorStop(0, `rgba(245, 215, 130, ${currentAlpha})`);
       grad.addColorStop(0.4, `rgba(212, 175, 55, ${currentAlpha * 0.5})`);
@@ -65,7 +62,6 @@ function initFireflies() {
       ctx.arc(f.x, f.y, f.radius * 4.5, 0, Math.PI * 2);
       ctx.fill();
 
-      // Core particle
       ctx.fillStyle = `rgba(255, 245, 210, ${currentAlpha * 1.2})`;
       ctx.beginPath();
       ctx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
@@ -79,7 +75,81 @@ function initFireflies() {
 }
 
 // ----------------------------------------------------
-// OPEN ENVELOPE WITH WAX SEAL BURST
+// CANVAS 2: HERO LIVING PAINTING FIREFLIES
+// ----------------------------------------------------
+let heroFirefliesRunning = false;
+function initHeroFireflies() {
+  const canvas = document.getElementById('heroFirefliesCanvas');
+  if (!canvas || heroFirefliesRunning) return;
+  heroFirefliesRunning = true;
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = canvas.parentElement.clientWidth || window.innerWidth;
+    canvas.height = canvas.parentElement.clientHeight || window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const fireflies = [];
+  const count = 35;
+
+  for (let i = 0; i < count; i++) {
+    fireflies.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 2 + 0.7,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35 - 0.1,
+      alpha: Math.random() * 0.7 + 0.2,
+      pulseSpeed: Math.random() * 0.02 + 0.01,
+      pulsePhase: Math.random() * Math.PI * 2
+    });
+  }
+
+  function render() {
+    if (!isOpened) {
+      heroFirefliesRunning = false;
+      return;
+    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (const f of fireflies) {
+      f.x += f.vx;
+      f.y += f.vy;
+      f.pulsePhase += f.pulseSpeed;
+
+      if (f.x < 0) f.x = canvas.width;
+      if (f.x > canvas.width) f.x = 0;
+      if (f.y < 0) f.y = canvas.height;
+      if (f.y > canvas.height) f.y = 0;
+
+      const currentAlpha = Math.max(0.05, Math.sin(f.pulsePhase) * 0.5 + 0.5) * f.alpha;
+
+      const grad = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.radius * 4);
+      grad.addColorStop(0, `rgba(245, 215, 130, ${currentAlpha})`);
+      grad.addColorStop(0.5, `rgba(212, 175, 55, ${currentAlpha * 0.4})`);
+      grad.addColorStop(1, 'rgba(212, 175, 55, 0)');
+
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.radius * 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = `rgba(255, 245, 210, ${currentAlpha * 1.1})`;
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  render();
+}
+
+// ----------------------------------------------------
+// 3D ENVELOPE OPENING ORCHESTRATION
 // ----------------------------------------------------
 function openPalazzoEnvelope() {
   if (isOpened) return;
@@ -87,15 +157,17 @@ function openPalazzoEnvelope() {
 
   const audio = document.getElementById('weddingAudio');
   const audioBtn = document.getElementById('floatingAudioBtn');
+  const stage = document.getElementById('envelopeStage');
   const screen = document.getElementById('envelopeScreen');
   const scroller = document.getElementById('invitationScroller');
   const flare = document.getElementById('sealBurstFlare');
   const replayBtn = document.getElementById('replayBtn');
   const prompt = document.getElementById('tapPrompt');
+  const heroText = document.getElementById('heroTextOverlay');
 
   if (prompt) prompt.style.opacity = '0';
 
-  // 1. Play music immediately
+  // 1. Instant audio start
   if (audio && audio.paused) {
     audio.play().then(() => {
       if (audioBtn) audioBtn.classList.add('playing');
@@ -107,10 +179,22 @@ function openPalazzoEnvelope() {
     flare.classList.add('is-firing');
   }
 
-  // 3. Transition to scrollable suite
+  // 3. Trigger 3D flap fold and letter rising
+  if (stage) {
+    stage.classList.add('is-opening');
+  }
+
+  // 4. After 3D flap unfolds and letter emerges, transition to Hero Living Frame
   setTimeout(() => {
     scroller.classList.add('is-active');
     scroller.scrollTop = 0;
+
+    if (heroText) {
+      heroText.classList.add('is-visible');
+    }
+
+    // Start hero fireflies
+    initHeroFireflies();
 
     screen.style.transition = 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
     screen.style.opacity = '0';
@@ -120,33 +204,38 @@ function openPalazzoEnvelope() {
       screen.classList.add('opened-hidden');
       if (replayBtn) replayBtn.classList.add('is-visible');
     }, 1200);
-  }, 450);
+  }, 950);
 }
 
 function replayPalazzoEnvelope() {
   isOpened = false;
+  const stage = document.getElementById('envelopeStage');
   const screen = document.getElementById('envelopeScreen');
   const scroller = document.getElementById('invitationScroller');
   const flare = document.getElementById('sealBurstFlare');
   const replayBtn = document.getElementById('replayBtn');
   const prompt = document.getElementById('tapPrompt');
+  const heroText = document.getElementById('heroTextOverlay');
 
   scroller.classList.remove('is-active');
   scroller.scrollTop = 0;
+  if (heroText) heroText.classList.remove('is-visible');
+
+  if (stage) stage.classList.remove('is-opening');
+  if (flare) flare.classList.remove('is-firing');
 
   screen.classList.remove('opened-hidden');
   screen.style.opacity = '1';
   screen.style.pointerEvents = 'auto';
 
-  if (flare) flare.classList.remove('is-firing');
   if (prompt) prompt.style.opacity = '1';
   if (replayBtn) replayBtn.classList.remove('is-visible');
 
-  initFireflies();
+  initEnvelopeFireflies();
 }
 
 // ----------------------------------------------------
-// AUDIO LIFECYCLE & TOGGLE
+// AUDIO LIFECYCLE
 // ----------------------------------------------------
 let wasPlayingBeforeHidden = false;
 
@@ -190,7 +279,7 @@ function toggleAudio() {
 // INITIALIZATION
 // ----------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
-  initFireflies();
+  initEnvelopeFireflies();
 
   const stage = document.getElementById('envelopeStage');
   const prompt = document.getElementById('tapPrompt');
@@ -212,6 +301,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const replayBtn = document.getElementById('replayBtn');
   if (replayBtn) replayBtn.addEventListener('click', replayPalazzoEnvelope);
 
+  // Chevron smooth scroll button
+  const scrollBtn = document.getElementById('heroScrollBtn');
+  const scroller = document.getElementById('invitationScroller');
+  if (scrollBtn && scroller) {
+    scrollBtn.addEventListener('click', () => {
+      const heroSection = document.getElementById('heroSection');
+      if (heroSection) {
+        scroller.scrollTo({
+          top: heroSection.offsetHeight,
+          behavior: 'smooth'
+        });
+      }
+    });
+  }
+
   // Template Picker dropdown
   const tplBtn = document.getElementById('templateMenuBtn');
   const tplDropdown = document.getElementById('templateDropdown');
@@ -227,7 +331,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Preload audio
   const audio = document.getElementById('weddingAudio');
   if (audio) audio.load();
 });

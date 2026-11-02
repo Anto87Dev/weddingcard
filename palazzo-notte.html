@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="palazzo-notte.css?v=3">
+  <link rel="stylesheet" href="palazzo-notte.css?v=4">
 </head>
 <body>
 
@@ -66,15 +66,39 @@
     </button>
 
     <!-- ========================================================
-         STAGE 1: PALAZZO NOTTE ENVELOPE (Gold Wax Seal & Fireflies)
+         STAGE 1: 3D ENVELOPE OPENING ANIMATION (Gold Wax Seal)
          ======================================================== -->
     <div id="envelopeScreen" class="envelope-screen">
-      <div id="envelopeStage" class="envelope-stage" title="Tocca il sigillo in ceralacca per aprire">
+      <div id="envelopeStage" class="envelope-stage" title="Tocca il sigillo per aprire">
         
-        <!-- Luxury Envelope Image (Frontal Flat-Lay Full Screen) -->
-        <img class="envelope-bg-image" src="assets/palazzo-notte-frontal.jpg?v=3" alt="Busta Palazzo Notte">
+        <!-- Base Envelope Layer (Frontal Full-Bleed) -->
+        <div class="envelope-base">
+          <img class="envelope-bg-image" src="assets/palazzo-notte-frontal.jpg?v=4" alt="Busta Palazzo Notte">
+        </div>
 
-        <!-- Luminous Fireflies Canvas -->
+        <!-- Inner Letter that slides up out of the envelope when opened -->
+        <div id="envelopeLetterSlide" class="envelope-letter-slide">
+          <div class="letter-slide-inner">
+            <span class="letter-slide-monogram">D &amp; R</span>
+            <span class="letter-slide-names">Diana &amp; Richard</span>
+            <span class="letter-slide-date">27 · Luglio · 2027</span>
+          </div>
+        </div>
+
+        <!-- 3D Top Flap that folds up -->
+        <div id="envelopeFlap3D" class="envelope-flap-3d">
+          <div class="envelope-flap-face front">
+            <img src="assets/palazzo-notte-frontal.jpg?v=4" alt="">
+          </div>
+          <div class="envelope-flap-face back"></div>
+        </div>
+
+        <!-- Front Pocket Overlay (covers bottom half of letter until it slides up) -->
+        <div class="envelope-front-pocket">
+          <img src="assets/palazzo-notte-frontal.jpg?v=4" alt="">
+        </div>
+
+        <!-- Luminous Fireflies Canvas on Envelope -->
         <canvas id="firefliesCanvas"></canvas>
 
         <!-- Golden Pulsing Aura behind the Wax Seal -->
@@ -94,35 +118,63 @@
     </div>
 
     <!-- ========================================================
-         STAGE 2: NIGHT SUITE INVITATION
+         STAGE 2: SCROLLABLE INVITATION (LIVING PAINTING & RIQUADRO)
          ======================================================== -->
     <div id="invitationScroller" class="invitation-scroller">
       
-      <!-- HERO NIGHT COVER -->
-      <section class="hero-night-section">
-        <div class="hero-night-card">
-          <div class="hero-night-monogram">D & R</div>
-          <h1 class="hero-night-names">
-            Diana
-            <span class="hero-night-amp">&</span>
-            Richard
-          </h1>
+      <!-- 1. HERO SECTION (LIVING PAINTING & IL RIQUADRO DEL PRIMO TEMPLATE) -->
+      <section id="heroSection" class="hero-section">
+        
+        <!-- Living Painting Backdrop (Palazzo Notte Terrace at Twilight) -->
+        <div class="hero-backdrop-wrapper">
+          <img id="heroBackdropImg" class="hero-backdrop-img" src="assets/palazzo-notte-hero.jpg?v=4" alt="Palazzo Notte Dipinto ad Olio">
+          <div class="hero-night-sky-glow"></div>
+        </div>
 
-          <p class="hero-night-line">
-            VI INVITIAMO A CELEBRARE<br>IL NOSTRO MATRIMONIO
-          </p>
+        <!-- Floating Golden Fireflies Canvas around the Riquadro -->
+        <canvas id="heroFirefliesCanvas"></canvas>
 
-          <div class="hero-night-date">27</div>
-          <div class="hero-night-subdate">MARTEDÌ · LUGLIO 2027</div>
+        <!-- Central Deckled Paper Text Overlay ("QUEL RIQUADRO") -->
+        <div id="heroTextOverlay" class="hero-text-overlay">
+          <div class="hero-card-inner">
+            <h2 class="hero-couple-names">
+              <span class="hero-name-1">Diana</span>
+              <span class="hero-names-amp">&amp;</span>
+              <span class="hero-name-2">Richard</span>
+            </h2>
 
-          <div class="hero-night-venue-box">
-            <div class="hero-night-held">PRESSO</div>
-            <div class="hero-night-venue">Palazzo & Tenuta Son Bunyola</div>
+            <p class="hero-invite-line">
+              VI INVITIAMO A CELEBRARE <br>IL NOSTRO MATRIMONIO
+            </p>
+
+            <!-- Date block flanked by delicate hand-painted branches -->
+            <div class="hero-date-block">
+              <img class="hero-twig twig-left" src="assets/ramita-capullos.png" alt="" aria-hidden="true">
+              <img class="hero-twig twig-right" src="assets/ramita-capullos.png" alt="" aria-hidden="true">
+
+              <span class="hero-date-month">Luglio</span>
+              <span class="hero-date-day">27</span>
+              <span class="hero-date-weekday">Martedì</span>
+              <span class="hero-date-year">2027</span>
+            </div>
+
+            <p class="hero-venue-held-at">Presso</p>
+            <p class="hero-venue-location">Son Bunyola, Maiorca</p>
           </div>
         </div>
+
+        <!-- Floating Down Chevron Button -->
+        <div class="hero-scroll-btn-wrapper">
+          <button id="heroScrollBtn" class="hero-scroll-btn" aria-label="Scorri in basso">
+            <svg class="chevron-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
       </section>
 
-      <!-- WELCOME SOIRÉE -->
+      <!-- 2. WELCOME SOIRÉE -->
       <section class="night-section">
         <h2 class="night-title">Welcome Soirée</h2>
         <div class="night-sub">LUNEDÌ 26 LUGLIO · ORE 19:30</div>
@@ -136,7 +188,7 @@
         </div>
       </section>
 
-      <!-- LA CELEBRAZIONE -->
+      <!-- 3. LA NOTTE DELLE NOZZE -->
       <section class="night-section">
         <h2 class="night-title">La Notte delle Nozze</h2>
         <div class="night-sub">MARTEDÌ 27 LUGLIO · ORE 18:00</div>
@@ -153,7 +205,7 @@
         </div>
       </section>
 
-      <!-- DRESS CODE -->
+      <!-- 4. DRESS CODE -->
       <section class="night-section">
         <h2 class="night-title">Dress Code</h2>
         <div class="night-sub">BLACK TIE OPTIONAL</div>
@@ -162,7 +214,7 @@
         </p>
       </section>
 
-      <!-- RSVP -->
+      <!-- 5. RSVP -->
       <section class="night-section" style="padding-bottom: 70px;">
         <h2 class="night-title">R.S.V.P.</h2>
         <div class="night-sub">CONFERMA ENTRO IL 15 MAGGIO 2027</div>
@@ -181,6 +233,6 @@
 
   </main>
 
-  <script src="palazzo-notte.js"></script>
+  <script src="palazzo-notte.js?v=4"></script>
 </body>
 </html>

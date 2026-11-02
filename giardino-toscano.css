@@ -1,6 +1,6 @@
 /* ========================================================
    TEMPLATE 3: GIARDINO TOSCANO (PEARL WAX SEAL & SUNBEAMS)
-   Warm Mediterranean Golden Hour Edition
+   Warm Mediterranean Golden Hour Edition with Deckled Frame
    ======================================================== */
 
 :root {
@@ -217,7 +217,7 @@ body {
 .tpl-opt-desc { font-size: 9.5px; color: #7d756b; }
 
 /* ----------------------------------------------------
-   STAGE 1: TUSCAN WAX SEAL & GOLDEN HOUR SUNBEAMS
+   STAGE 1: 3D ENVELOPE OPENING ANIMATION
    ---------------------------------------------------- */
 .envelope-screen {
   position: absolute;
@@ -230,7 +230,7 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: opacity 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .envelope-screen.opened-hidden {
@@ -243,6 +243,15 @@ body {
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  perspective: 1200px;
+}
+
+.envelope-base {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
 .envelope-bg-image {
@@ -252,6 +261,122 @@ body {
   height: 100%;
   object-fit: cover;
   transition: transform 1.2s ease;
+}
+
+/* 3D Top Triangular Flap */
+.envelope-flap-3d {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  z-index: 6;
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.envelope-stage.is-opening .envelope-flap-3d {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope-flap-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.envelope-flap-face.front img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  object-fit: cover;
+}
+
+.envelope-flap-face.back {
+  transform: rotateX(180deg);
+  background: linear-gradient(180deg, #ede4d1 0%, #d8caaf 100%);
+  border-bottom: 2px solid rgba(179, 93, 67, 0.4);
+}
+
+/* Inner Letter Slide */
+.envelope-letter-slide {
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translate(-50%, 0) scale(0.85);
+  width: 72%;
+  height: 52%;
+  background: #faf7f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+  z-index: 2;
+  opacity: 0;
+  transition: transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.25s, opacity 0.5s ease 0.25s;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(179, 93, 67, 0.3);
+}
+
+.envelope-stage.is-opening .envelope-letter-slide {
+  opacity: 1;
+  transform: translate(-50%, -40%) scale(1.05);
+}
+
+.letter-slide-inner {
+  text-align: center;
+  color: #332d28;
+  padding: 20px;
+}
+.letter-slide-monogram {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  letter-spacing: 5px;
+  color: var(--color-terracotta);
+  display: block;
+  margin-bottom: 8px;
+}
+.letter-slide-names {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  display: block;
+  line-height: 1.1;
+  color: var(--color-charcoal);
+}
+.letter-slide-date {
+  font-family: var(--font-sans);
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-olive-dark);
+  margin-top: 10px;
+  display: block;
+}
+
+/* Front Pocket */
+.envelope-front-pocket {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  clip-path: polygon(0 50%, 50% 50%, 100% 50%, 100% 100%, 0 100%);
+  pointer-events: none;
+}
+.envelope-front-pocket img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Luminous Golden Hour Sunbeams */
@@ -264,7 +389,7 @@ body {
   background: radial-gradient(circle at 85% 15%, rgba(255, 235, 175, 0.55) 0%, rgba(255, 210, 130, 0.25) 30%, rgba(255, 180, 90, 0.1) 50%, transparent 75%);
   mix-blend-mode: screen;
   pointer-events: none;
-  z-index: 3;
+  z-index: 7;
   animation: sunbeamBreathe 5s infinite ease-in-out;
 }
 
@@ -286,7 +411,7 @@ body {
   );
   mix-blend-mode: overlay;
   pointer-events: none;
-  z-index: 4;
+  z-index: 8;
 }
 
 /* Pearlescent Gleam on the Wax Seal */
@@ -299,7 +424,7 @@ body {
   height: 150px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(255, 240, 200, 0.35) 45%, transparent 70%);
-  z-index: 5;
+  z-index: 9;
   pointer-events: none;
   animation: pearlShimmer 4s infinite ease-in-out;
 }
@@ -325,7 +450,7 @@ body {
   transition: transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.8s ease-out;
 }
 .tuscan-flare.is-firing {
-  transform: translate(-50%, -50%) scale(1.65);
+  transform: translate(-50%, -50%) scale(1.7);
   opacity: 1;
 }
 
@@ -358,7 +483,7 @@ body {
 }
 
 /* ----------------------------------------------------
-   STAGE 2: SCROLLABLE INVITATION (GIARDINO TOSCANO)
+   STAGE 2: SCROLLABLE INVITATION (HERO & SECTIONS)
    ---------------------------------------------------- */
 .invitation-scroller {
   position: absolute;
@@ -377,8 +502,8 @@ body {
   overflow-y: auto;
 }
 
-/* 1. HERO TUSCAN COVER */
-.hero-tuscan-section {
+/* 1. HERO SECTION (LIVING PAINTING & IL RIQUADRO) */
+.hero-section {
   position: relative;
   min-height: 100vh;
   min-height: 100dvh;
@@ -388,102 +513,213 @@ body {
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 30%, #fffefb 0%, #f7f1e6 100%);
-  padding: calc(90px + env(safe-area-inset-top, 0px)) 24px calc(30px + env(safe-area-inset-bottom, 0px)) 24px;
-  text-align: center;
+  background: #fdfbf7;
 }
 
-.hero-tuscan-card {
+.hero-backdrop-wrapper {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  max-width: 320px;
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(179, 93, 67, 0.25);
-  border-radius: 16px;
-  padding: 38px 24px 34px 24px;
-  box-shadow: 0 8px 30px rgba(50, 35, 25, 0.08);
-  position: relative;
-  z-index: 5;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 1.6s ease, transform 1.6s ease;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
 }
 
-.invitation-scroller.is-active .hero-tuscan-card {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hero-tuscan-monogram {
-  font-family: var(--font-serif);
-  font-size: 15px;
-  letter-spacing: 6px;
-  color: var(--color-terracotta);
-  margin-bottom: 8px;
-}
-
-.hero-tuscan-names {
-  font-family: var(--font-serif);
-  font-size: 42px;
-  font-weight: 400;
-  color: var(--color-charcoal);
-  line-height: 1;
-  letter-spacing: 0.5px;
-}
-
-.hero-tuscan-amp {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 22px;
-  color: var(--color-terracotta);
-  margin: 4px 0;
+.hero-backdrop-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
-.hero-tuscan-line {
-  font-size: 8.5px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--color-olive-dark);
-  margin: 16px 0 18px 0;
-  line-height: 1.6;
+/* ========================================================
+   IL RIQUADRO DEL PRIMO TEMPLATE (DECKLED-EDGE FRAME)
+   ======================================================== */
+.hero-text-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(65px + env(safe-area-inset-top, 0px)) 16px calc(75px + env(safe-area-inset-bottom, 0px)) 16px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 1.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
 }
 
-.hero-tuscan-date {
+.invitation-scroller.is-active .hero-text-overlay,
+.hero-text-overlay.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.hero-card-inner {
+  width: 100%;
+  max-width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px; /* Centers vertically within the deckled cutout */
+}
+
+.hero-couple-names {
   font-family: var(--font-serif);
-  font-size: 40px;
-  color: var(--color-terracotta-dark);
-  line-height: 1;
-  margin-bottom: 2px;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 0.95;
+  color: #2b251f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 12px;
+  letter-spacing: -0.2px;
 }
 
-.hero-tuscan-subdate {
-  font-size: 9px;
+.hero-names-amp {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1;
+  margin: 2px 0;
+  opacity: 0.6;
+  color: var(--color-terracotta);
+}
+
+.hero-invite-line {
+  font-family: var(--font-sans);
+  font-size: 7.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #3b352e;
+  max-width: 190px;
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+
+.hero-date-block {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2px;
+  margin-bottom: 10px;
+  color: #2b251f;
+}
+
+.hero-twig {
+  position: absolute;
+  top: 50%;
+  width: 26px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-twig.twig-left {
+  left: -38px;
+  transform: translateY(-50%) rotate(-105deg);
+}
+
+.hero-twig.twig-right {
+  right: -38px;
+  transform: translateY(-50%) scaleX(-1) rotate(105deg);
+}
+
+.hero-date-month {
+  font-family: var(--font-sans);
+  font-size: 8.5px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  padding-left: 0.32em;
+}
+
+.hero-date-day {
+  font-family: var(--font-serif);
+  font-size: 38px;
+  line-height: 1;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  color: #2b251f;
+}
+
+.hero-date-weekday {
+  font-family: var(--font-sans);
+  font-size: 7.5px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  opacity: 0.8;
+  padding-left: 0.3em;
 }
 
-.hero-tuscan-venue-box {
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(179, 93, 67, 0.18);
-}
-
-.hero-tuscan-held {
+.hero-date-year {
+  font-family: var(--font-sans);
   font-size: 8.5px;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  opacity: 0.85;
+  padding-left: 0.28em;
+  margin-top: 1px;
 }
 
-.hero-tuscan-venue {
+.hero-venue-held-at {
+  font-family: var(--font-sans);
+  font-size: 7.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #635c52;
+  margin-top: 8px;
+}
+
+.hero-venue-location {
   font-family: var(--font-serif);
-  font-size: 20px;
-  color: var(--color-charcoal);
-  margin-top: 4px;
+  font-size: 16px;
+  color: #2b251f;
+  margin-top: 2px;
+  letter-spacing: 0.2px;
 }
 
-/* Sections */
+.hero-scroll-btn-wrapper {
+  position: relative;
+  z-index: 25;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px));
+}
+
+.hero-scroll-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(250, 247, 240, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(179, 93, 67, 0.25);
+  color: var(--color-terracotta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transition: transform 0.25s ease;
+}
+
+.chevron-bounce {
+  width: 20px;
+  height: 20px;
+  animation: chevronBounce 2s infinite ease-in-out;
+}
+
+/* ----------------------------------------------------
+   SUBSEQUENT TUSCAN SECTIONS
+   ---------------------------------------------------- */
 .tuscan-section {
   padding: 50px 22px;
   border-bottom: 1px solid rgba(179, 93, 67, 0.1);

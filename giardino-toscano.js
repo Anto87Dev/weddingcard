@@ -1,25 +1,30 @@
 /**
  * GIARDINO TOSCANO CONTROLLER
- * Pearlescent Wax Seal, Sunbeams & Mediterranean Romance
+ * 3D Envelope Opening Animation, Pearlescent Wax Seal & Tuscan Sunbeam Hero Frame
  */
 
 let isOpened = false;
 
+// ----------------------------------------------------
+// 3D ENVELOPE OPENING ORCHESTRATION
+// ----------------------------------------------------
 function openTuscanEnvelope() {
   if (isOpened) return;
   isOpened = true;
 
   const audio = document.getElementById('weddingAudio');
   const audioBtn = document.getElementById('floatingAudioBtn');
+  const stage = document.getElementById('envelopeStage');
   const screen = document.getElementById('envelopeScreen');
   const scroller = document.getElementById('invitationScroller');
   const flare = document.getElementById('tuscanFlare');
   const replayBtn = document.getElementById('replayBtn');
   const prompt = document.getElementById('tapPrompt');
+  const heroText = document.getElementById('heroTextOverlay');
 
   if (prompt) prompt.style.opacity = '0';
 
-  // 1. Play audio
+  // 1. Instant audio start
   if (audio && audio.paused) {
     audio.play().then(() => {
       if (audioBtn) audioBtn.classList.add('playing');
@@ -31,10 +36,19 @@ function openTuscanEnvelope() {
     flare.classList.add('is-firing');
   }
 
-  // 3. Transition to scrollable suite
+  // 3. Trigger 3D flap fold and letter rising
+  if (stage) {
+    stage.classList.add('is-opening');
+  }
+
+  // 4. After 3D flap unfolds and letter emerges, transition to Hero Living Frame
   setTimeout(() => {
     scroller.classList.add('is-active');
     scroller.scrollTop = 0;
+
+    if (heroText) {
+      heroText.classList.add('is-visible');
+    }
 
     screen.style.transition = 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
     screen.style.opacity = '0';
@@ -44,25 +58,30 @@ function openTuscanEnvelope() {
       screen.classList.add('opened-hidden');
       if (replayBtn) replayBtn.classList.add('is-visible');
     }, 1200);
-  }, 450);
+  }, 950);
 }
 
 function replayTuscanEnvelope() {
   isOpened = false;
+  const stage = document.getElementById('envelopeStage');
   const screen = document.getElementById('envelopeScreen');
   const scroller = document.getElementById('invitationScroller');
   const flare = document.getElementById('tuscanFlare');
   const replayBtn = document.getElementById('replayBtn');
   const prompt = document.getElementById('tapPrompt');
+  const heroText = document.getElementById('heroTextOverlay');
 
   scroller.classList.remove('is-active');
   scroller.scrollTop = 0;
+  if (heroText) heroText.classList.remove('is-visible');
+
+  if (stage) stage.classList.remove('is-opening');
+  if (flare) flare.classList.remove('is-firing');
 
   screen.classList.remove('opened-hidden');
   screen.style.opacity = '1';
   screen.style.pointerEvents = 'auto';
 
-  if (flare) flare.classList.remove('is-firing');
   if (prompt) prompt.style.opacity = '1';
   if (replayBtn) replayBtn.classList.remove('is-visible');
 }
@@ -131,6 +150,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const replayBtn = document.getElementById('replayBtn');
   if (replayBtn) replayBtn.addEventListener('click', replayTuscanEnvelope);
+
+  // Chevron smooth scroll button
+  const scrollBtn = document.getElementById('heroScrollBtn');
+  const scroller = document.getElementById('invitationScroller');
+  if (scrollBtn && scroller) {
+    scrollBtn.addEventListener('click', () => {
+      const heroSection = document.getElementById('heroSection');
+      if (heroSection) {
+        scroller.scrollTo({
+          top: heroSection.offsetHeight,
+          behavior: 'smooth'
+        });
+      }
+    });
+  }
 
   // Template Picker dropdown
   const tplBtn = document.getElementById('templateMenuBtn');
