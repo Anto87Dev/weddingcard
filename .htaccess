@@ -1,0 +1,38 @@
+# ========================================================
+# CONFIGURAZIONE ARUBA HOSTING (APACHE / LINUX)
+# Invito di Nozze "Fresco"
+# ========================================================
+
+# 1. MIME TYPES CORRETTI (Cruciali per Video MP4, Audio MP3 e Font su Mobile)
+<IfModule mod_mime.c>
+  AddType video/mp4 .mp4
+  AddType video/webm .webm
+  AddType audio/mpeg .mp3
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
+  AddType font/woff .woff
+</IfModule>
+
+# 2. ABILITA COMPRESSIONE GZIP (Velocizza il caricamento iniziale)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# 3. CACHE BROWSER PER ASSET PESANTI (Video, Audio, Immagini)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType text/javascript "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType video/mp4 "access plus 1 month"
+  ExpiresByType audio/mpeg "access plus 1 month"
+</IfModule>
+
+# 4. SUPPORT RANGE REQUESTS (Per streaming video progressivo)
+<IfModule mod_headers.c>
+  Header set Accept-Ranges bytes
+</IfModule>

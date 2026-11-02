@@ -1,0 +1,9 @@
+# Development & Local Server Tools
+server.js
+AVVIA_DEMO_MOBILE.bat
+original_screens/
+fresco_remote*
+scratch/
+conferme_rsvp.csv
+.DS_Store
+Thumbs.db
