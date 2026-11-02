@@ -1,9 +1,10 @@
 /**
  * PALAZZO NOTTE CONTROLLER
- * 3D Envelope Opening Animation, Golden Wax Seal & Starry Night Hero Frame
+ * GSAP 60fps Synchronized 3D Envelope Opening & Living Oil Painting Frame
  */
 
 let isOpened = false;
+let masterTimeline = null;
 
 // ----------------------------------------------------
 // CANVAS 1: FIREFLIES ON ENVELOPE COVER
@@ -21,15 +22,15 @@ function initEnvelopeFireflies() {
   window.addEventListener('resize', resize);
 
   const fireflies = [];
-  const count = 45;
+  const count = 40;
 
   for (let i = 0; i < count; i++) {
     fireflies.push({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       radius: Math.random() * 2.2 + 0.8,
-      vx: (Math.random() - 0.5) * 0.45,
-      vy: (Math.random() - 0.5) * 0.45 - 0.15,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4 - 0.12,
       alpha: Math.random() * 0.7 + 0.2,
       pulseSpeed: Math.random() * 0.025 + 0.01,
       pulsePhase: Math.random() * Math.PI * 2
@@ -149,7 +150,7 @@ function initHeroFireflies() {
 }
 
 // ----------------------------------------------------
-// 3D ENVELOPE OPENING ORCHESTRATION
+// GSAP CHOREOGRAPHED 3D ENVELOPE OPENING
 // ----------------------------------------------------
 function openPalazzoEnvelope() {
   if (isOpened) return;
@@ -157,15 +158,15 @@ function openPalazzoEnvelope() {
 
   const audio = document.getElementById('weddingAudio');
   const audioBtn = document.getElementById('floatingAudioBtn');
-  const stage = document.getElementById('envelopeStage');
   const screen = document.getElementById('envelopeScreen');
   const scroller = document.getElementById('invitationScroller');
   const flare = document.getElementById('sealBurstFlare');
-  const replayBtn = document.getElementById('replayBtn');
+  const sealGroup = document.getElementById('waxSealGroup');
+  const flap = document.getElementById('envelopeFlap3D');
+  const letter = document.getElementById('envelopeLetterSlide');
   const prompt = document.getElementById('tapPrompt');
   const heroText = document.getElementById('heroTextOverlay');
-
-  if (prompt) prompt.style.opacity = '0';
+  const replayBtn = document.getElementById('replayBtn');
 
   // 1. Instant audio start
   if (audio && audio.paused) {
@@ -174,61 +175,98 @@ function openPalazzoEnvelope() {
     }).catch(e => console.log('Audio autoplay:', e));
   }
 
-  // 2. Fire golden starlight burst from the wax seal
-  if (flare) {
-    flare.classList.add('is-firing');
-  }
-
-  // 3. Trigger 3D flap fold and letter rising
-  if (stage) {
-    stage.classList.add('is-opening');
-  }
-
-  // 4. After 3D flap unfolds and letter emerges, transition to Hero Living Frame
-  setTimeout(() => {
-    scroller.classList.add('is-active');
-    scroller.scrollTop = 0;
-
-    if (heroText) {
-      heroText.classList.add('is-visible');
-    }
-
-    // Start hero fireflies
-    initHeroFireflies();
-
-    screen.style.transition = 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
-    screen.style.opacity = '0';
-    screen.style.pointerEvents = 'none';
-
-    setTimeout(() => {
+  // 2. Master GSAP Timeline (butter-smooth 60fps synchronization)
+  masterTimeline = gsap.timeline({
+    onComplete: () => {
       screen.classList.add('opened-hidden');
       if (replayBtn) replayBtn.classList.add('is-visible');
-    }, 1200);
-  }, 950);
+    }
+  });
+
+  // T = 0.0s: Prompt fades out
+  masterTimeline.to(prompt, { opacity: 0, duration: 0.25, ease: 'power2.out' }, 0);
+
+  // T = 0.0s: Golden starlight flare erupts from the wax seal
+  masterTimeline.fromTo(flare,
+    { scale: 0, opacity: 0 },
+    { scale: 1.8, opacity: 1, duration: 0.5, ease: 'power2.out' },
+    0
+  );
+  masterTimeline.to(flare, { opacity: 0, duration: 0.45, ease: 'power2.in' }, 0.4);
+
+  // T = 0.15s: Wax seal unlocks and melts into starlight
+  masterTimeline.to(sealGroup, { scale: 1.18, opacity: 0, duration: 0.45, ease: 'power2.in' }, 0.15);
+
+  // T = 0.35s: Top Flap opens in 3D (0 -> 180deg)
+  masterTimeline.to(flap, {
+    rotateX: 180,
+    duration: 1.15,
+    ease: 'power2.inOut',
+    transformOrigin: 'top center'
+  }, 0.35);
+
+  // T = 0.75s: Letter emerges out of the envelope pocket and glides upward
+  masterTimeline.to(letter, {
+    opacity: 1,
+    y: -190,
+    scale: 1.05,
+    duration: 1.35,
+    ease: 'power2.out'
+  }, 0.75);
+
+  // T = 1.75s: Activate scroller & trigger hero fireflies
+  masterTimeline.add(() => {
+    scroller.classList.add('is-active');
+    scroller.scrollTop = 0;
+    initHeroFireflies();
+  }, 1.75);
+
+  // T = 1.8s: Harmonious crossfade from envelope to Hero living painting
+  masterTimeline.to(screen, {
+    opacity: 0,
+    duration: 1.1,
+    ease: 'power2.inOut'
+  }, 1.8);
+
+  // T = 2.0s: The text and branches in "quel riquadro" settle into place
+  masterTimeline.fromTo(heroText,
+    { opacity: 0, y: 15 },
+    { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out' },
+    2.0
+  );
 }
 
 function replayPalazzoEnvelope() {
   isOpened = false;
-  const stage = document.getElementById('envelopeStage');
+
   const screen = document.getElementById('envelopeScreen');
   const scroller = document.getElementById('invitationScroller');
   const flare = document.getElementById('sealBurstFlare');
-  const replayBtn = document.getElementById('replayBtn');
+  const sealGroup = document.getElementById('waxSealGroup');
+  const flap = document.getElementById('envelopeFlap3D');
+  const letter = document.getElementById('envelopeLetterSlide');
   const prompt = document.getElementById('tapPrompt');
   const heroText = document.getElementById('heroTextOverlay');
+  const replayBtn = document.getElementById('replayBtn');
+
+  if (masterTimeline) {
+    masterTimeline.kill();
+  }
 
   scroller.classList.remove('is-active');
   scroller.scrollTop = 0;
-  if (heroText) heroText.classList.remove('is-visible');
 
-  if (stage) stage.classList.remove('is-opening');
-  if (flare) flare.classList.remove('is-firing');
-
+  // Reset GSAP animated properties to initial state
+  gsap.set(screen, { opacity: 1 });
   screen.classList.remove('opened-hidden');
-  screen.style.opacity = '1';
-  screen.style.pointerEvents = 'auto';
 
-  if (prompt) prompt.style.opacity = '1';
+  gsap.set(flap, { rotateX: 0 });
+  gsap.set(letter, { opacity: 0, y: 0, scale: 0.85 });
+  gsap.set(sealGroup, { scale: 1, opacity: 1 });
+  gsap.set(flare, { scale: 0, opacity: 0 });
+  gsap.set(prompt, { opacity: 1 });
+  gsap.set(heroText, { opacity: 0, y: 15 });
+
   if (replayBtn) replayBtn.classList.remove('is-visible');
 
   initEnvelopeFireflies();

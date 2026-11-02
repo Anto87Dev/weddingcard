@@ -216,7 +216,7 @@ body {
 .tpl-opt-desc { font-size: 9.5px; color: var(--color-text-dim); }
 
 /* ----------------------------------------------------
-   STAGE 1: 3D ENVELOPE OPENING ANIMATION
+   STAGE 1: 3D ENVELOPE OPENING ANIMATION (GSAP DRIVEN)
    ---------------------------------------------------- */
 .envelope-screen {
   position: absolute;
@@ -229,7 +229,7 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
 }
 
 .envelope-screen.opened-hidden {
@@ -259,7 +259,6 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 1.2s ease, filter 1.2s ease;
 }
 
 /* 3D Top Triangular Flap */
@@ -272,13 +271,8 @@ body {
   transform-origin: top center;
   transform-style: preserve-3d;
   z-index: 6;
-  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
-}
-
-.envelope-stage.is-opening .envelope-flap-3d {
-  transform: rotateX(180deg);
-  z-index: 1;
+  will-change: transform;
 }
 
 .envelope-flap-face {
@@ -319,17 +313,12 @@ body {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
   z-index: 2;
   opacity: 0;
-  transition: transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.25s, opacity 0.5s ease 0.25s;
   pointer-events: none;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(212, 175, 55, 0.35);
-}
-
-.envelope-stage.is-opening .envelope-letter-slide {
-  opacity: 1;
-  transform: translate(-50%, -40%) scale(1.05);
+  will-change: transform, opacity;
 }
 
 .letter-slide-inner {
@@ -343,22 +332,41 @@ body {
   letter-spacing: 5px;
   color: #aa8524;
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .letter-slide-names {
   font-family: var(--font-serif);
-  font-size: 24px;
+  font-size: 22px;
   display: block;
   line-height: 1.1;
   color: #1e1b17;
 }
+.letter-slide-twig-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+.twig-mini {
+  width: 18px;
+  opacity: 0.85;
+}
+.twig-mini.right {
+  transform: scaleX(-1);
+}
 .letter-slide-date {
   font-family: var(--font-sans);
   font-size: 8px;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: #7d7265;
-  margin-top: 10px;
+}
+.letter-slide-venue {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  color: #554e44;
+  margin-top: 8px;
   display: block;
 }
 
@@ -388,28 +396,39 @@ body {
   pointer-events: none;
 }
 
-/* Pulsing Golden Aura around the Wax Seal */
-.wax-seal-pulse-glow {
+/* Wax Seal Group & Aura */
+.wax-seal-group {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 160px;
   height: 160px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(243, 208, 120, 0.6) 0%, rgba(212, 175, 55, 0.25) 45%, transparent 70%);
   z-index: 8;
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, opacity;
+}
+
+.wax-seal-pulse-glow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(243, 208, 120, 0.6) 0%, rgba(212, 175, 55, 0.25) 45%, transparent 70%);
   animation: waxPulse 3s infinite ease-in-out;
 }
 
 @keyframes waxPulse {
   0%, 100% {
-    transform: translate(-50%, -50%) scale(0.92);
+    transform: scale(0.92);
     opacity: 0.5;
   }
   50% {
-    transform: translate(-50%, -50%) scale(1.25);
+    transform: scale(1.25);
     opacity: 0.95;
     filter: drop-shadow(0 0 25px rgba(243, 208, 120, 0.8));
   }
@@ -428,11 +447,7 @@ body {
   z-index: 15;
   pointer-events: none;
   opacity: 0;
-  transition: transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.8s ease-out;
-}
-.seal-burst-flare.is-firing {
-  transform: translate(-50%, -50%) scale(1.7);
-  opacity: 1;
+  will-change: transform, opacity;
 }
 
 /* Tap to Open Prompt */
