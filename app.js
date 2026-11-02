@@ -409,8 +409,47 @@ function replayEnvelope() {
 }
 
 // ----------------------------------------------------
-// AUDIO CONTROLLER
+// AUDIO CONTROLLER & PAGE LIFECYCLE (Auto-pause when leaving/switching tabs)
 // ----------------------------------------------------
+let wasPlayingBeforeHidden = false;
+
+// Ferma la musica quando si cambia scheda, si minimizza il browser o si passa ad altra app
+document.addEventListener('visibilitychange', () => {
+  const audio = document.getElementById('weddingAudio');
+  const audioBtn = document.getElementById('floatingAudioBtn');
+  if (!audio) return;
+
+  if (document.hidden) {
+    if (!audio.paused) {
+      wasPlayingBeforeHidden = true;
+      audio.pause();
+      if (audioBtn) audioBtn.classList.remove('playing');
+    }
+  } else {
+    // Quando si torna sulla pagina dell'invito, riprendi la musica se era attiva
+    if (wasPlayingBeforeHidden && isEnvelopeOpened) {
+      audio.play().then(() => {
+        if (audioBtn) audioBtn.classList.add('playing');
+      }).catch(() => {});
+    }
+  }
+});
+
+// Ferma l'audio alla chiusura della pagina o del browser
+window.addEventListener('pagehide', () => {
+  const audio = document.getElementById('weddingAudio');
+  if (audio) {
+    audio.pause();
+  }
+});
+
+window.addEventListener('beforeunload', () => {
+  const audio = document.getElementById('weddingAudio');
+  if (audio) {
+    audio.pause();
+  }
+});
+
 function toggleAudio() {
   const audio = document.getElementById('weddingAudio');
   const audioBtn = document.getElementById('floatingAudioBtn');
@@ -422,6 +461,7 @@ function toggleAudio() {
     });
   } else {
     audio.pause();
+    wasPlayingBeforeHidden = false;
     audioBtn.classList.remove('playing');
   }
 }
