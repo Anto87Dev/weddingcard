@@ -86,56 +86,63 @@
          ======================================================== -->
     <div id="invitationScroller" class="invitation-scroller">
       
-      <!-- 1. HERO COVER -->
-      <section class="hero-section">
-        <!-- Painted Roses Framing Top Left -->
-        <img class="hero-corner-roses top-left" src="assets/roses-top-left-D0RRxzlV.png" alt="" aria-hidden="true">
-
-        <div class="hero-content">
-          <div class="hero-monogram-tag">D & R</div>
-
-          <h1 class="hero-names">
-            Diana
-            <span class="names-amp">&</span>
-            Richard
-          </h1>
-
-          <div class="hero-invite-line" data-i18n="inviteLine">
-            VI INVITIAMO A CELEBRARE IL NOSTRO MATRIMONIO
-          </div>
-
-          <!-- Date Display Box -->
-          <div class="hero-date-box">
-            <img class="hero-date-flower" src="assets/bouquet-BbYUpj3K.png" alt="" aria-hidden="true">
-
-            <div class="hero-date-center">
-              <div class="hero-month" data-i18n="month">LUGLIO</div>
-              <div class="hero-day-number">27</div>
-              <div class="hero-weekday-year" data-i18n="dayWeekYear">MARTEDÌ 2027</div>
-            </div>
-
-            <img class="hero-date-flower" src="assets/bouquet-BbYUpj3K.png" alt="" aria-hidden="true" style="transform: scaleX(-1);">
-          </div>
-
-          <div class="hero-venue-block">
-            <div class="hero-venue-label" data-i18n="heldAt">PRESSO</div>
-            <div class="hero-venue-name" data-i18n="venue">Son Bunyola, Maiorca</div>
-          </div>
+      <!-- 1. HERO COVER (Living Oil Painting & Deckled Paper Card) -->
+      <section id="heroSection" class="hero-section">
+        <!-- Living Video Backdrop of Amalfi Landscape -->
+        <div class="hero-video-wrapper">
+          <video 
+            id="heroVideo" 
+            class="hero-video" 
+            src="assets/hero-video.mp4" 
+            poster="assets/fresco-hero-original.jpg" 
+            autoplay 
+            muted 
+            loop 
+            playsinline 
+            webkit-playsinline>
+          </video>
         </div>
 
-        <!-- Painted Roses Framing Bottom Right -->
-        <img class="hero-corner-roses bottom-right" src="assets/roses-bottom-right-C-Wj2fia.png" alt="" aria-hidden="true">
+        <!-- Animated Text Overlay inside the Deckled Frame ("quel riquadro") -->
+        <div id="heroTextOverlay" class="hero-text-overlay">
+          
+          <h2 class="hero-couple-names">
+            <span class="hero-name-1">Diana</span>
+            <span class="hero-names-amp">&amp;</span>
+            <span class="hero-name-2">Richard</span>
+          </h2>
 
-        <div class="hero-scroll-prompt">
-          <span data-i18n="scrollPrompt">Scorri in basso</span>
-          <svg class="chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M7 10l5 5 5-5"/>
-          </svg>
+          <p class="hero-invite-line" data-i18n="inviteLine">
+            WE INVITE YOU TO <br>CELEBRATE OUR WEDDING
+          </p>
+
+          <!-- Date block flanked by delicate hand-painted branches -->
+          <div class="hero-date-block">
+            <img class="hero-twig twig-left" src="assets/ramita-capullos.png" alt="" aria-hidden="true">
+            <img class="hero-twig twig-right" src="assets/ramita-capullos.png" alt="" aria-hidden="true">
+
+            <span class="hero-date-month" data-i18n="month">July</span>
+            <span class="hero-date-day">27</span>
+            <span class="hero-date-weekday" data-i18n="weekday">Tuesday</span>
+            <span class="hero-date-year">2027</span>
+          </div>
+
+          <p class="hero-venue-held-at" data-i18n="heldAt">To be held at</p>
+          <p class="hero-venue-location" data-i18n="venue">Son Bunyola, Mallorca</p>
+        </div>
+
+        <!-- Floating Down Chevron Button -->
+        <div class="hero-scroll-btn-wrapper">
+          <button id="heroScrollBtn" class="hero-scroll-btn" aria-label="Scorri in basso">
+            <svg class="chevron-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
         </div>
       </section>
 
       <!-- 2. COUNTDOWN IN FLORAL GARLAND FRAME -->
-      <section class="countdown-section">
+      <section id="countdownSection" class="countdown-section">
         <h2 class="section-title" data-i18n="countdownTitle">Conto alla Rovescia</h2>
         <div class="section-subtitle" data-i18n="countdownSub">Fino al 27 Luglio 2027</div>
 

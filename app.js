@@ -275,6 +275,17 @@ function setLanguage(lang) {
 // ----------------------------------------------------
 // ENVELOPE OPENING VIDEO ORCHESTRATION
 // ----------------------------------------------------
+
+function startMusicImmediately() {
+  const audio = document.getElementById('weddingAudio');
+  const audioBtn = document.getElementById('floatingAudioBtn');
+  if (audio && audio.paused) {
+    audio.play().then(() => {
+      if (audioBtn) audioBtn.classList.add('playing');
+    }).catch(e => console.log('Audio autoplay prevented:', e));
+  }
+}
+
 let isEnvelopeOpened = false;
 
 function openEnvelope() {
