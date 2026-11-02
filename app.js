@@ -348,6 +348,19 @@ function openEnvelope() {
     scroller.classList.add('is-active');
     scroller.scrollTop = 0;
 
+    // Start animated living video background for the first page ("quel riquadro")
+    const heroVid = document.getElementById('heroVideo');
+    if (heroVid) {
+      heroVid.playbackRate = 0.5;
+      heroVid.play().catch(() => {});
+    }
+
+    // Explicitly add is-visible class to ensure text is 100% visible
+    const heroText = document.getElementById('heroTextOverlay');
+    if (heroText) {
+      heroText.classList.add('is-visible');
+    }
+
     screen.style.transition = 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
     screen.style.opacity = '0';
     screen.style.pointerEvents = 'none';
@@ -370,6 +383,15 @@ function replayEnvelope() {
 
   scroller.classList.remove('is-active');
   scroller.scrollTop = 0;
+
+  const heroText = document.getElementById('heroTextOverlay');
+  if (heroText) heroText.classList.remove('is-visible');
+
+  const heroVid = document.getElementById('heroVideo');
+  if (heroVid) {
+    heroVid.pause();
+    heroVid.currentTime = 0;
+  }
 
   screen.classList.remove('opened-hidden');
   screen.style.transition = 'opacity 0.6s ease';

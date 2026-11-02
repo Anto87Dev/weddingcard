@@ -327,9 +327,10 @@ body {
   pointer-events: none;
 }
 
+.invitation-scroller.is-active .hero-text-overlay,
 .hero-text-overlay.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 .hero-couple-names {
